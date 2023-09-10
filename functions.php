@@ -31,19 +31,26 @@ add_action('after_setup_theme', 'university_features');
 
 function university_adjust_queries($query)
 {
-  if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) {
-    $query->set('meta_key', 'event_date');
-    $query->set('orderby', 'meta_value_num');
-    $query->set('order', 'asc');
-    $today = date('Ymd');
-    $query->set('meta_query', array(
-      array(
-        'key' => 'event_date',
-        'compare' => '>=',
-        'value' => $today,
-        'type' => 'numeric',
-      ),
-    ));
+  if (!is_admin() and $query->is_main_query()) {
+    if (is_post_type_archive('event')) {
+      $query->set('meta_key', 'event_date');
+      $query->set('orderby', 'meta_value_num');
+      $query->set('order', 'asc');
+      $today = date('Ymd');
+      $query->set('meta_query', array(
+        array(
+          'key' => 'event_date',
+          'compare' => '>=',
+          'value' => $today,
+          'type' => 'numeric',
+        ),
+      ));
+    }
+    if (is_post_type_archive('program')) {
+      $query->set('posts_per_page', -1);
+      $query->set('orderby', 'title');
+      $query->set('order', 'asc');
+    }
   }
 }
 
