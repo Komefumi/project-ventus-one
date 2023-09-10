@@ -26,6 +26,50 @@ while (have_posts()) {
     <div class="generic-content">
       <?php the_content(); ?>
     </div>
+    <?php
+    $today = date('Ymd');
+    $homepage_events = new WP_Query(array(
+      'posts_per_page' => 2,
+      'post_type' => 'event',
+      'meta_key' => 'event_date',
+      'orderby' => 'meta_value_num',
+      'order' => 'asc',
+      'meta_query' => array(
+        array(
+          'key' => 'event_date',
+          'compare' => '>=',
+          'value' => $today,
+          'type' => 'numeric',
+        ),
+        array(
+          'key' => 'related_programs',
+          'compare' => 'LIKE',
+          'value' => '"' . get_the_ID() . '"',
+        ),
+      ),
+    ));
+    while ($homepage_events->have_posts()) {
+      $homepage_events->the_post(); ?>
+      <div class="event-summary">
+        <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
+          <?php
+          $event_date = new DateTime(get_field('event_date'));
+          ?>
+          <span class="event-summary__month">
+            <?php
+            echo $event_date->format('M');
+            ?>
+          </span>
+          <span class="event-summary__day"><?php echo $event_date->format('d') ?></span>
+        </a>
+        <div class="event-summary__content">
+          <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+          <p><?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 18) ?><a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
+        </div>
+      </div>
+    <?php }
+    wp_reset_postdata();
+    ?>
   </div>
 <?php }
 
