@@ -24,7 +24,14 @@ while (have_posts()) {
       </p>
     </div> -->
     <div class="generic-content">
-      <?php the_content(); ?>
+      <div class="row group">
+        <div class="one-third">
+          <?php the_post_thumbnail(); ?>
+        </div>
+        <div class="two-thirds">
+          <?php the_content(); ?>
+        </div>
+      </div>
     </div>
 
     <?php
