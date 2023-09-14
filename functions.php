@@ -9,9 +9,13 @@ function page_banner($args = [])
     $args['subtitle'] = get_field('page_banner_subtitle');
   }
   if (!isset($args['photo'])) {
-    $img_already = get_field('page_banner_background_image');
-    if ($img_already) {
-      $args['photo'] = $img_already['sizes']['page_banner'];
+    if (!is_archive() and !is_home()) {
+      $img_already = get_field('page_banner_background_image');
+      if ($img_already) {
+        $args['photo'] = $img_already['sizes']['page_banner'];
+      } else {
+        $args['photo'] = get_theme_file_uri('/images/ocean.jpg');
+      }
     } else {
       $args['photo'] = get_theme_file_uri('/images/ocean.jpg');
     }
