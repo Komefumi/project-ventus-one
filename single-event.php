@@ -8,7 +8,7 @@ while (have_posts()) {
   the_post();
   page_banner(array(
     'title' => get_the_title(),
-    'subtitle' => "Don't forget to replace me later",
+    'subtitle' => get_field('page_banner_subtitle'),
   )); ?>
 
   <div class="container container--narrow page-section">
