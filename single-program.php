@@ -84,25 +84,9 @@ while (have_posts()) {
         <h2 class="headline headline--medium">Upcoming <?php echo get_the_title(); ?> Events</h2>
         <?php
         while ($related_events->have_posts()) {
-          $related_events->the_post(); ?>
-          <div class="event-summary">
-            <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-              <?php
-              $event_date = new DateTime(get_field('event_date'));
-              ?>
-              <span class="event-summary__month">
-                <?php
-                echo $event_date->format('M');
-                ?>
-              </span>
-              <span class="event-summary__day"><?php echo $event_date->format('d') ?></span>
-            </a>
-            <div class="event-summary__content">
-              <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-              <p><?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words(get_the_content(), 18) ?><a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
-            </div>
-          </div>
-        <?php }
+          $related_events->the_post();
+          get_template_part('template-parts/event-excerpt');
+        }
         wp_reset_postdata();
         ?>
   </div>
