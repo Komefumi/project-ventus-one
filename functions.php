@@ -88,6 +88,10 @@ function university_adjust_queries($query)
       $query->set('orderby', 'title');
       $query->set('order', 'asc');
     }
+
+    if (is_post_type_archive('campus')) {
+      $query->set('posts_per_page', -1);
+    }
   }
 }
 
